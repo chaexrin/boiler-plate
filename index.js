@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 //application/json
 app.use(bodyParser.json());
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
 mongoose.connect(config.mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -29,7 +31,7 @@ app.post('/register', async (req,res) => {
   const user = new User(req.body)
 
   try {
-    await user.save();
+    await user.save(err, userInfo);
     return res.status(200).json({success:true})
   } catch (err) {
     return res.json({success:false, err})
